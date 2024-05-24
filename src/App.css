@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body{
+  font-family: Inter;
+}
+
+.success-toast {
+  border-radius: 10px;
+  background: #D1E6DD;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #105132;
+}
+
+.failure-toast {
+  border-radius: 10px;
+  background: #FFF3CD;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #674C04;
+}
