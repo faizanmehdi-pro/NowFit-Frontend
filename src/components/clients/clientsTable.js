@@ -13,6 +13,11 @@ import edit from "../../assets/images/edit.svg"
 import deleteIcon from "../../assets/images/delete.svg"
 import activeEdit from "../../assets/images/activeEdit.svg"
 import activeDelete from "../../assets/images/activeDelete.svg"
+import { deleteClient } from '../../api/auth/deleteClient';
+import { toast } from 'react-toastify';
+import { getClient } from '../../api/auth/getClient';
+import DeleteClient from './deleteClient';
+import Loader from '../../reuseableComponents/loader/loader';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,8 +77,10 @@ const rows = [
   createData(15474, 'Charlie', '20%', '$300', 'Active'),
 ];
 
-export default function ClientsTables() {
+export default function ClientsTables({allClients, clientLoading,setClientLoading, setUpdateClientData, setGetClientData}) {
   const [hoverIcons, setHoverIcons] = useState(rows.map(() => false));
+  const [clientID, setClientID] = useState();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleRowHover = (index, isHovered) => {
     setHoverIcons(prevState => {
@@ -83,8 +90,24 @@ export default function ClientsTables() {
     });
   };
 
+
+  const handleEdit = (id) => {
+    
+    getClient(id)
+      .then((response) => {
+        console.log("object", response)
+        setGetClientData(response);
+        setUpdateClientData(true);
+      })
+      .catch((error) => {
+        console.error("Error deleting client:", error);
+      });
+  };
+
   return (
+    <>
     <StyledTableContainer component={Paper}>
+    {clientLoading ? (<Loader colorProp="#F78852"/>) : (
       <Table>
         <TableHead>
           <TableRow>
@@ -98,7 +121,7 @@ export default function ClientsTables() {
         </TableHead>
         <Divider />
         <TableBody>
-          {rows.map((row, index) => (
+          {allClients.map((row, index) => (
             <React.Fragment key={row.id}>
               <StyledTableRow
                 key={row.id}
@@ -113,21 +136,21 @@ export default function ClientsTables() {
                 <StyledTableCell>{row.commissionReceived}</StyledTableCell>
                 <StyledTableCell>
                   <Status>
-                    <StatusCircle hoverIcons={hoverIcons[index]}/> {row.status}
+                    <StatusCircle hoverIcons={hoverIcons[index]}/> {row.is_active ? "Active" : "Panding"}
                   </Status>
                 </StyledTableCell>
                 <StyledTableCell>
-                  {hoverIcons[index] ?
+                  {hoverIcons[index] ? (
                     <Status>
-                      <Img src={activeEdit} alt="activeEdit" />
-                      <Img src={activeDelete} alt="activeDelete" />
+                      <Img src={activeEdit} alt="activeEdit" onClick={() => handleEdit(row.id)}/>
+                      <Img src={deleteIcon} alt="deleteIcon" onClick={() => { setShowDeleteModal(true); setClientID(row.id); }} />
                     </Status>
-                    : 
+                  ) : (
                     <Status>
-                      <Img src={edit} alt="edit" />
-                      <Img src={deleteIcon} alt="deleteIcon" />
+                      <Img src={edit} alt="edit" onClick={() => handleEdit(row.id)}/>
+                      <Img src={deleteIcon} alt="deleteIcon" onClick={() => { setShowDeleteModal(true); setClientID(row.id); }} />
                     </Status>
-                  }
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
               <Divider />
@@ -135,6 +158,14 @@ export default function ClientsTables() {
           ))}
         </TableBody>
       </Table>
+    )}
     </StyledTableContainer>
+    <DeleteClient 
+      showDeleteModal={showDeleteModal} 
+      setShowDeleteModal={setShowDeleteModal} 
+      clientID={clientID}
+      setClientLoading={setClientLoading}
+    />
+    </>
   );
 }

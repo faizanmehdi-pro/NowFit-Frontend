@@ -18,7 +18,7 @@ import { forgetPassword } from '../../api/auth/forgetPassword';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const ForgotPasswordForm = ({setChangePasswordEmail}) => {
+const ForgotPasswordForm = ({setOtpManualCode, setChangePasswordEmail}) => {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -30,10 +30,11 @@ const ForgotPasswordForm = ({setChangePasswordEmail}) => {
     onSubmit: (values) => {
     forgetPassword(values.email)
     .then((resp) => {
-      console.log(resp)
+      console.log(resp?.otp_code)
       if (resp.message === "Mail sent successfully") {
         toast.success("Mail sent successfully");
         setChangePasswordEmail(values.email);
+        setOtpManualCode(resp?.otp_code);
         navigate('/verifyOTP');
     }
     })

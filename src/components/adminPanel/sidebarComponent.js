@@ -11,37 +11,77 @@ import Dashboard from "../dashboard/dashboard";
 import Clients from "../clients/clients";
 import MonthlyRevenue from "../monthlyRevenue/monthlyRevenue";
 import ClientSetting from "../clientSetting/clientSetting";
+import UpdateClient from "../updateClient/updateClient";
+import { useLocation } from "react-router-dom";
 
-const SidebarComponent = ({ activeSidebarComponent, showSidebar, setShowSidebar }) => {
+const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoading, chartYearData }) => {
+  const location = useLocation();
+  const activeSidebarComponent = location.pathname.slice(1);
+
+  // Function to determine if a link should be considered active
+  const isActiveLink = (path) => {
+    return location.pathname === path;
+  };
+  const [updateClientData, setUpdateClientData] = useState(false);
+  const [getClientData, setGetClientData] = useState();
+  const [clientLoading, setClientLoading] = useState(true);
   return (
     <SidebarComponents>
-      <SidebarComponentContainer active={activeSidebarComponent === "Dashboard"}>
+      <SidebarComponentContainer active={isActiveLink("/dashboard")}>
         <MenuTopbar>
-          <SidebarMenu showSidebar={showSidebar} onClick={() => setShowSidebar(true)}/>
+          <SidebarMenu 
+            showSidebar={showSidebar} 
+            onClick={() => setShowSidebar(true)}
+          />
           <Topbar activeSidebarComponent={activeSidebarComponent}/>
         </MenuTopbar>
-        <Dashboard />
+        <Dashboard 
+          analytics={analytics}
+          analyticsLoading={analyticsLoading}
+          chartYearData={chartYearData}
+        />
       </SidebarComponentContainer>
-      <SidebarComponentContainer active={activeSidebarComponent === "Clients"}>
+      {updateClientData ? (
+      <SidebarComponentContainer active={isActiveLink("/clients")}>
+        <UpdateClient 
+          showSidebar={showSidebar} 
+          setShowSidebar={setShowSidebar} 
+          setUpdateClientData= {setUpdateClientData} 
+          getClientData={getClientData} 
+          setClientLoading={setClientLoading}
+        />
+      </SidebarComponentContainer>
+      ) : (
+        <SidebarComponentContainer active={isActiveLink("/clients")}>
+          <MenuTopbar>
+            <SidebarMenu showSidebar={showSidebar} onClick={() => setShowSidebar(true)} />
+            <Topbar activeSidebarComponent={activeSidebarComponent}/>
+          </MenuTopbar>
+          <Clients 
+            setUpdateClientData={setUpdateClientData} 
+            setGetClientData={setGetClientData} 
+            clientLoading={clientLoading} 
+            setClientLoading={setClientLoading}
+            analytics={analytics}
+            analyticsLoading={analyticsLoading}
+          />
+        </SidebarComponentContainer>
+        )}
+      <SidebarComponentContainer active={isActiveLink("/transactions")}>
         <MenuTopbar>
           <SidebarMenu showSidebar={showSidebar} onClick={() => setShowSidebar(true)} />
           <Topbar activeSidebarComponent={activeSidebarComponent}/>
         </MenuTopbar>
-        <Clients />
+        <MonthlyRevenue 
+          analytics={analytics}
+          analyticsLoading={analyticsLoading}
+          clientLoading={clientLoading}
+        />
       </SidebarComponentContainer>
-      <SidebarComponentContainer active={activeSidebarComponent === "Transactions"}>
-        <MenuTopbar>
-          <SidebarMenu showSidebar={showSidebar} onClick={() => setShowSidebar(true)} />
-          <Topbar activeSidebarComponent={activeSidebarComponent}/>
-        </MenuTopbar>
-        <MonthlyRevenue />
-      </SidebarComponentContainer>
-      <SidebarComponentContainer active={activeSidebarComponent === "Setting"}>
-        {/* <Topbar activeSidebarComponent={activeSidebarComponent}/>
-        Setting */}
+      <SidebarComponentContainer  active={isActiveLink("/setting")}>
         <ClientSetting showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
       </SidebarComponentContainer>
-      <SidebarComponentContainer active={activeSidebarComponent === "Help"}>
+      <SidebarComponentContainer  active={isActiveLink("/help")}>
         Help
       </SidebarComponentContainer>
     </SidebarComponents>

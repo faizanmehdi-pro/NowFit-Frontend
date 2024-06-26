@@ -1,9 +1,9 @@
 import React from 'react'
 import ResetPasswordForm from '../../components/userAuthentication/resetPasswordForm'
 
-const ResetPassword = ({userID}) => {
+const ResetPassword = ({changePasswordEmail, userID}) => {
   return (
-    <ResetPasswordForm userID={userID}/>
+    <ResetPasswordForm changePasswordEmail={changePasswordEmail} userID={userID}/>
   )
 }
 

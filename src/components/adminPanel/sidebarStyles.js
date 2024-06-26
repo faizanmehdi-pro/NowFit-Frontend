@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoMdMenu } from "react-icons/io";
+import { NavLink } from "react-router-dom";
 
 export const AdminPanelContent = styled.div`
 background: #F5F5F5;
@@ -64,7 +65,7 @@ export const SideBarLinks = styled.div`
 display: flex;
 flex-direction: column;
 `;
-export const SidebarLink = styled.button`
+export const SidebarLink = styled(NavLink)`
 height: 50px;
 outline: none;
 cursor: pointer;
@@ -77,6 +78,7 @@ align-items: center;
 padding: 0 20px;
 border-radius: 8px;
 gap: 10px;
+text-decoration: none;
 
 img{
     width: 25px;

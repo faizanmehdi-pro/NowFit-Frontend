@@ -8,8 +8,13 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 width: 100%;
+h2{
+  text-transform: capitalize;
+}
 @media screen and (max-width: 760px) {
-h2{font-size: 18px;}
+h2{
+  font-size: 18px;
+}
 }
 `;
 const User = styled.div`

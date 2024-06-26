@@ -7,11 +7,10 @@ const api = axios.create({
 }); 
 
 
-export const login = async (credentials) => {
+export const updateClient = async (credentials) => {
   
-  let result = await api.post('user/login/', {
-    email: credentials.email,
-    password: credentials.password,
+  let result = await api.put(`user/users/${credentials.userId}/`, {
+    name: credentials.name,
   });
   return result.data;
 };

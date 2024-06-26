@@ -19,10 +19,14 @@ width: 300px;
 @media screen and (max-width: 760px) {width: 220px; padding: 10px; gap: 5px;}
 `;
 
-export const BCText = styled.div`
+export const BCText = styled.button`
 font-size: 20px;
 font-weight: 700;
 color: #000;
+background: none;
+border: none;
+outline: none;
+cursor: pointer;
 
 @media screen and (max-width: 760px) {font-size: 16px;}
 `;

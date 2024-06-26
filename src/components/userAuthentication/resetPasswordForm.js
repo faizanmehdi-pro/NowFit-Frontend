@@ -19,8 +19,10 @@ import {
 } from './userAuthenticationFormStyle';
 import { toast } from 'react-toastify';
 import { resetPassword } from '../../api/auth/resetPassword';
+import { useNavigate } from 'react-router-dom';
 
-const ResetPasswordForm = ({userID}) => {
+const ResetPasswordForm = ({changePasswordEmail, userID}) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -36,17 +38,17 @@ const ResetPasswordForm = ({userID}) => {
     }),
     onSubmit: (values) => {
       const resetPasswordData = {
-        userId: userID,
+        userId: changePasswordEmail,
         newPassword: values.newPassword,
         confirmNewPassword: values.confirmNewPassword
       }
       resetPassword(resetPasswordData)
       .then((resp) => {
         toast.success("Password Reset Successfully");
+        navigate('/');
       })
       .catch((err) => {
-        console.log(err);
-        toast.error(err);
+        toast.error("User not found");
       });
     },
   });

@@ -8,7 +8,7 @@ const api = axios.create({
 
 
 export const verifyOTP = async (credentials) => {
-    let result = await api.post('verify_code/', {
+    let result = await api.post('user/verify_code/', {
         email: credentials.email,
         code: credentials.code,
     });

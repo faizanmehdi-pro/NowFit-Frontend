@@ -5,18 +5,21 @@ import Chart from 'chart.js/auto';
 import { ChartTopLine, DChart, DashboardChartContainer } from './dashboardStyles';
 
 
-const DashboardChart = () => {
+const DashboardChart = ({analytics, chartYearData}) => {
+
   const [expensesData, setExpensesData] = useState([]);
   const [filter, setFilter] = useState('thisYear');
   const chartRef = useRef(null);
-  const chartInstanceRef = useRef(null); // Maintain chart instance outside the component's state
+  const chartInstanceRef = useRef(null);
+
+  console.log("Year", chartYearData)
 
   useEffect(() => {
     const fetchExpensesData = async () => {
       let data = [];
       switch (filter) {
         case 'thisYear':
-          data = generateExpensesDataForYear();
+          data = generateExpensesDataForYear(chartYearData);
           break;
         case 'thisMonth':
           data = generateExpensesDataForMonth();
@@ -31,7 +34,7 @@ const DashboardChart = () => {
     };
 
     fetchExpensesData();
-  }, [filter]);
+  }, [filter, analytics]);
 
   useEffect(() => {
     renderChart();
@@ -106,7 +109,7 @@ const DashboardChart = () => {
 
   const generateExpensesDataForYear = () => {
     const currentYear = getYear(new Date());
-    const data = [20, 30, 20, 30, 20, 40, 50, 30, 40, 20, 40, 30];
+    const data = chartYearData || [];
     return data;
   };
   

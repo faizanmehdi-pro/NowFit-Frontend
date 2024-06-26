@@ -5,6 +5,7 @@ import activeRevenue from "../../assets/images/activeRevenue.svg"
 import revenue from "../../assets/images/revenue.svg"
 import activeClient from "../../assets/images/clientsActive.svg"
 import client from "../../assets/images/clients.svg"
+import Loader from "../../reuseableComponents/loader/loader";
 
 const CardsContainer = styled.div`
 display: flex;
@@ -47,8 +48,9 @@ img{
   height: 25px;
 }
 `;
-const Cards = () => {
+const Cards = ({analytics, analyticsLoading}) => {
     const [activeButton, setActiveButton] = useState("Total Revenue");
+    let colorProp = "#F78852";
 
     const handleButtonClick = (value) => {
       setActiveButton(value);
@@ -67,7 +69,7 @@ const Cards = () => {
   }
           <h3>Total Revenue</h3>
         </CardHeading>
-        <h3>$50K</h3>
+        <h3>{analyticsLoading ? "" : "$"} {analyticsLoading? (<Loader colorProp={activeButton === "Total Revenue" ? "#fff" : "#F78852"} />) : analytics?.total_revenue}{analyticsLoading ? "" : "K"}</h3>
       </Card>
       <Card
         active={activeButton === "Active Clients"}
@@ -81,21 +83,21 @@ const Cards = () => {
 }
         <h3>Active Clients</h3>
       </CardHeading>
-        <h3>5</h3>
+        <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Active Clients" ? "#fff" : "#F78852"} />) : analytics?.active_clinets}</h3>
       </Card>
       <Card
-        active={activeButton === "Monthly Revenue"}
-        onClick={() => handleButtonClick("Monthly Revenue")}
+        active={activeButton === "Expiring Clients"}
+        onClick={() => handleButtonClick("Expiring Clients")}
       >
       <CardHeading>
-        {activeButton === "Monthly Revenue" ?
-        <Img src={activeRevenue} alt="activeRevenue" />
+        {activeButton === "Expiring Clients" ?
+        <Img src={activeClient} alt="activeClient" />
         : 
-        <Img src={revenue} alt="revenue" />
+        <Img src={client} alt="client" />
 }
-        <h3>Monthly Revenue</h3>
+        <h3>Expiring Clients</h3>
       </CardHeading>
-        <h3>$10K</h3>
+        <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Expiring Clients" ? "#fff" : "#F78852"} />) : analytics?.expiring_clients}</h3>
       </Card>
     </CardsContainer>
   );

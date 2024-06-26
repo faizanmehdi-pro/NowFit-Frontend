@@ -5,14 +5,13 @@ import "./App.css"
 import ForgotPassword from "./pages/userAuthentication/forgotPassword";
 import VerifyOTP from "./pages/userAuthentication/verifyOTP";
 import ResetPassword from "./pages/userAuthentication/resetPassword";
-import ChangePassword from "./pages/userAuthentication/changePassword";
 import Home from './pages/home/adminPanel';
-import SignInForm from './components/userAuthentication/signInForm';
 import { useState } from 'react';
+import SignIn from './pages/userAuthentication/signIn';
 
 function App() {
-  const token = localStorage.getItem('token');
   const [changePasswordEmail, setChangePasswordEmail] = useState();
+  const [otpManualCode, setOtpManualCode] = useState('');
   const [userID, setUserID] = useState();
 
   return (
@@ -22,37 +21,32 @@ function App() {
           <Route
             path="/"
             exact
-            element={token ? <Home /> : <SignInForm />}
-          /> 
-          {/* <Route
-            path="/signUp"
-            exact
-            element={<SignUp />}
-          />  */}
-          {/* <Route
-            path="/signIn"
-            exact
             element={<SignIn />}
-          />  */}
+          /> 
+          <Route
+            path="/:pathname"
+            exact
+            element={<Home />}
+          /> 
           <Route
             path="/forgotPassword"
             exact
-            element={<ForgotPassword setChangePasswordEmail={setChangePasswordEmail}/>}
+            element={<ForgotPassword setOtpManualCode={setOtpManualCode} setChangePasswordEmail={setChangePasswordEmail}/>}
           /> 
           <Route
             path="/verifyOTP"
             exact
-            element={<VerifyOTP changePasswordEmail={changePasswordEmail} setUserID={setUserID}/>}
+            element={<VerifyOTP otpManualCode={otpManualCode} setOtpManualCode={setOtpManualCode} changePasswordEmail={changePasswordEmail} setUserID={setUserID}/>}
           /> 
           <Route
             path="/resetPassword"
             exact
-            element={<ResetPassword userID={userID}/>}
+            element={<ResetPassword changePasswordEmail={changePasswordEmail} userID={userID}/>}
           /> 
           <Route
             path="/changePassword"
             exact
-            element={<ChangePassword />}
+            element={<signInForm />}
           />
         </Routes>
       </Router>

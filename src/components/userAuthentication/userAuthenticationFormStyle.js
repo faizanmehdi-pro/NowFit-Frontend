@@ -269,6 +269,7 @@ export const AuthFormVerifyOTP = styled.div`
 display: flex;
 justify-content: center;
 color: #FFF;
+font-weight: bold;
 .character{
     border: solid #999BA0;
     border-width: 0 0 6px 0;

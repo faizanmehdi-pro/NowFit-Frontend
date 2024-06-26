@@ -13,6 +13,7 @@ import edit from "../../assets/images/edit.svg"
 import deleteIcon from "../../assets/images/delete.svg"
 import activeEdit from "../../assets/images/activeEdit.svg"
 import activeDelete from "../../assets/images/activeDelete.svg"
+import Loader from '../../reuseableComponents/loader/loader';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,7 +73,7 @@ const rows = [
   createData('$250', 'Charlie', 'Apr 27, 3:18 pm', 'Trainer Consultancy Commission', 'Succeeded'),
 ];
 
-export default function MonthlyRevenueTables() {
+export default function MonthlyRevenueTables({allTransactions, clientLoading}) {
   const [hoverIcons, setHoverIcons] = useState(rows.map(() => false));
 
   const handleRowHover = (index, isHovered) => {
@@ -85,20 +86,21 @@ export default function MonthlyRevenueTables() {
 
   return (
     <StyledTableContainer component={Paper}>
+    {clientLoading ? (<Loader colorProp="#F78852"/>) : (
       <Table>
         <TableHead>
           <TableRow>
             <StyledTableCell>Amount</StyledTableCell>
             <StyledTableCell>Status</StyledTableCell>
-            <StyledTableCell>Cient</StyledTableCell>
+            <StyledTableCell>Fee</StyledTableCell>
             <StyledTableCell>Date</StyledTableCell>
-            <StyledTableCell>Description</StyledTableCell>
+            <StyledTableCell>Commission Rate</StyledTableCell>
             {/* <StyledTableCell>Actions</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <Divider />
         <TableBody>
-          {rows.map((row, index) => (
+          {allTransactions.map((row, index) => (
             <React.Fragment key={row.amount}>
               <StyledTableRow
                 key={row.amount}
@@ -113,9 +115,9 @@ export default function MonthlyRevenueTables() {
                     <StatusCircle hoverIcons={hoverIcons[index]}/> {row.status}
                   </Status>
                 </StyledTableCell>
-                <StyledTableCell>{row.name}</StyledTableCell>
-                <StyledTableCell>{row.date}</StyledTableCell>
-                <StyledTableCell>{row.Description}</StyledTableCell>
+                <StyledTableCell>{row.fee}</StyledTableCell>
+                <StyledTableCell>{row.created_at.slice(0, 10)}</StyledTableCell>
+                <StyledTableCell>{row.commission_rate}</StyledTableCell>
                 {/* <StyledTableCell>
                   {hoverIcons[index] ?
                     <Status>
@@ -135,6 +137,7 @@ export default function MonthlyRevenueTables() {
           ))}
         </TableBody>
       </Table>
+       )}
     </StyledTableContainer>
   );
 }

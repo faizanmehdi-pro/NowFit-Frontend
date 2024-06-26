@@ -9,8 +9,8 @@ const api = axios.create({
 
 export const resetPassword = async (credentials) => {
     console.log("api", credentials)
-    let result = await api.post('reset_password/', {
-        id: credentials.userId,
+    let result = await api.post('user/reset_password/', {
+        email: credentials.userId,
         new_password: credentials.newPassword,
         confirm_password: credentials.confirmNewPassword,
     });

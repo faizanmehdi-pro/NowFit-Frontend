@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AuthPageContainer,
   AuthForm,
@@ -15,9 +15,10 @@ import { forgetPassword } from '../../api/auth/forgetPassword';
 import { verifyOTP } from '../../api/auth/verifyOTP';
 import { useNavigate } from 'react-router-dom';
 
-const VerifyOTPForm = ({changePasswordEmail, setUserID}) => {
+const VerifyOTPForm = ({otpManualCode, setOtpManualCode, changePasswordEmail, setUserID}) => {
+  // console.log("otpcode", otpManualCode)
   const navigate = useNavigate();
-  const [otpValue, setOtpValue] = useState('');
+  const [otpValue, setOtpValue] = useState(otpManualCode);
   const [error, setError] = useState('');
 
   const handleChange = (value) => {
@@ -41,7 +42,7 @@ const VerifyOTPForm = ({changePasswordEmail, setUserID}) => {
     }
     verifyOTP(otpData)
       .then((resp) => {
-        console.log("first", resp?.user_id)
+        // console.log("first", resp?.user_id)
         setUserID(resp?.user_id);
         navigate("/resetPassword")
       })
@@ -51,16 +52,21 @@ const VerifyOTPForm = ({changePasswordEmail, setUserID}) => {
   };
   
   const getCode = async () => {
-    console.log("first", changePasswordEmail)
+    // console.log("first", changePasswordEmail)
     try {
       let result = await forgetPassword(changePasswordEmail);
       if (result.message === "Mail sent successfully") {
         toast.success("Code has been resent successfully");
+        setOtpManualCode(result.otp_code);
       }
     } catch (error) {
       return error;
     }
   };
+
+  useEffect(() => {
+    setOtpValue(otpManualCode)
+  }, [otpManualCode])
 
   return (
     <AuthPageContainer>

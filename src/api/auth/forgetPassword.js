@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const forgetPassword = async (credentials) => {
   try {
-    let result = await api.post('forgot_password/', {
+    let result = await api.post('user/forgot_password/', {
       email: credentials,
     });
     return Promise.resolve(result.data).then(data => data);

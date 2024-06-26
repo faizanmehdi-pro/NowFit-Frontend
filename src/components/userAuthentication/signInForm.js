@@ -22,8 +22,10 @@ import {
 } from './userAuthenticationFormStyle';
 import { toast } from 'react-toastify';
 import { login } from '../../api/auth/login';
+import { useNavigate } from 'react-router-dom';
 
 const SignInForm = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -39,8 +41,8 @@ const SignInForm = () => {
       login(values)
       .then((resp) => {
         toast.success("User Login Successfully");
-        localStorage.setItem('token', 'your-token');
-        window.location.reload();
+        navigate("/dashboard");
+        localStorage.setItem("user_id", resp.user_id);
       })
       .catch((err) => {
         console.log(err);

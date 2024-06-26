@@ -1,9 +1,9 @@
 import React from 'react'
 import VerifyOTPForm from '../../components/userAuthentication/verifyOTPForm'
 
-const VerifyOTP = ({changePasswordEmail, setUserID}) => {
+const VerifyOTP = ({otpManualCode, setOtpManualCode, changePasswordEmail, setUserID}) => {
   return (
-    <VerifyOTPForm changePasswordEmail={changePasswordEmail} setUserID={setUserID}/>
+    <VerifyOTPForm otpManualCode={otpManualCode} setOtpManualCode={setOtpManualCode} changePasswordEmail={changePasswordEmail} setUserID={setUserID}/>
   )
 }
 

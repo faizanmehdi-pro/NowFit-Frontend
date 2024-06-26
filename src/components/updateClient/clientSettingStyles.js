@@ -114,7 +114,6 @@ color: #F78852;
 font-weight: 600;
 font-size: 18px;
 cursor: pointer;
-
 `;
 
 export const ClientStripeFormButton = styled.button`
@@ -127,8 +126,4 @@ color: #fff;
 font-weight: 600;
 font-size: 18px;
 cursor: pointer;
-
-&:disabled{
-    cursor: not-allowed;
-}
 `;

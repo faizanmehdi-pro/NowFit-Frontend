@@ -1,9 +1,9 @@
 import React from 'react'
 import ForgotPasswordForm from '../../components/userAuthentication/forgotPasswordForm'
 
-const ForgotPassword = ({setChangePasswordEmail}) => {
+const ForgotPassword = ({setOtpManualCode, setChangePasswordEmail}) => {
   return (
-    <ForgotPasswordForm setChangePasswordEmail={setChangePasswordEmail}/>
+    <ForgotPasswordForm setOtpManualCode={setOtpManualCode} setChangePasswordEmail={setChangePasswordEmail}/>
   )
 }
 

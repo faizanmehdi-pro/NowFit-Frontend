@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ClientStripeFormButton, ClientStripeFormButtonContainer, ClientStripeFormCancelButton, ClientStripeFormCombinedField, ClientStripeFormContainer, ClientStripeFormError, ClientStripeFormField, ClientStripeFormFieldDifferent, ClientStripeFormFieldInput, ClientStripeFormFieldLabelText, ClientStripeFormFieldTextArea, ClientStripeFormTitle } from './clientSettingStyles';
+import { stripe } from '../../api/stripe';
 
 const ClientStripeForm = () => {
+  const [currentUrl, setCurrentUrl] = useState('');
+  const [stripeLoading, setStripeLoading] = useState(false);
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, []);
+
+  const userID = localStorage.getItem("user_id");
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -18,8 +27,22 @@ const ClientStripeForm = () => {
       stripeSK: Yup.string().required('Stripe Secret Key is required'),
     }),
     onSubmit: (values) => {
-      // Handle form submission here
-      console.log(values);
+      setStripeLoading(true)
+      const apiData = {
+        "userID": userID,
+        "currentURL": currentUrl
+      }
+      console.log("first", apiData)
+      stripe(apiData)
+      .then((resp) => {
+        const url = resp.data.url;
+        window.location.href = url; 
+        setStripeLoading(false)
+      })
+      .catch((err) => {
+        console.log(err);
+        // toast.error("Client ID or Password is Incorrect");
+      });
     },
   });
 
@@ -89,7 +112,13 @@ const ClientStripeForm = () => {
         </ClientStripeFormCombinedField>
         <ClientStripeFormButtonContainer>
           <ClientStripeFormCancelButton type="button">Cancel</ClientStripeFormCancelButton>
-          <ClientStripeFormButton type="submit" onClick={formik.handleSubmit}>Save</ClientStripeFormButton>
+          <ClientStripeFormButton 
+            type="submit" 
+            onClick={formik.handleSubmit}
+            disabled={stripeLoading}
+          >
+             {stripeLoading ? "Loading..." : "Save"}
+          </ClientStripeFormButton>
         </ClientStripeFormButtonContainer>
       </ClientStripeFormContainer>
   );

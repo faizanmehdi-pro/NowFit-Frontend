@@ -1,14 +1,34 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Cards from '../Cards/Cards'
 import { AddClient, ClientsContainer } from './clientsStyles'
 import ClientsTables from './clientsTable'
+import { getAllClients } from '../../api/auth/getAllClients'
+import Loader from '../../reuseableComponents/loader/loader'
 
-const Clients = () => {
+const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClientLoading, analytics, analyticsLoading}) => {
+  const [allClients, setAllClients] = useState([]);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const resp = await getAllClients();
+        setAllClients(resp?.users);
+        setClientLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchClients();
+  }, [clientLoading]); 
+
   return (
     <ClientsContainer>
-        <Cards />
-        {/* <AddClient>+ Add Client</AddClient> */}
-        <ClientsTables />
+        <Cards 
+          analytics={analytics}
+          analyticsLoading={analyticsLoading}
+        />
+        <ClientsTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData}/>
     </ClientsContainer>
   )
 }
