@@ -66,7 +66,7 @@ const DashboardChart = ({analytics, chartYearData}) => {
             : Array.from({ length: 12 }, (_, i) => format(new Date(0, i + 1, 0), 'MMM')),
         datasets: [
           {
-            label: 'Expenses',
+            label: 'Revenue',
             backgroundColor: expensesData.map((expense, index) => index === maxExpenseIndex ? 'rgba(247, 136, 82, 0.5)' : 'rgba(75,192,192,0.2)'),
             // borderColor: expensesData.map((expense, index) => index === maxExpenseIndex ? 'rgba(247, 136, 82, 0.5)' : 'rgba(75,192,192,1)'),
             borderWidth: 1,
@@ -144,14 +144,14 @@ const DashboardChart = ({analytics, chartYearData}) => {
     <DashboardChartContainer>
       <ChartTopLine>
         <h3>Revenue Chart</h3>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          {/* <select value={filter} onChange={(e) => setFilter(e.target.value)}>
             <option value="thisYear">This Year</option>
             <option value="thisMonth">This Month</option>
             <option value="thisWeek">This Week</option>
-          </select>
+          </select> */}
       </ChartTopLine>
-      <DChart>
-      <canvas ref={chartRef} />
+      <DChart style={{ height: '280px', width: '100%' }}>
+        <canvas ref={chartRef} style={{ maxHeight: '280px', width: '100%' }} />
       </DChart>
     </DashboardChartContainer>
   );

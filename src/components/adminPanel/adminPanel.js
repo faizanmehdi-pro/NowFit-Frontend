@@ -8,6 +8,9 @@ import SidebarComponent from "./sidebarComponent";
 import { getAllAnalysis } from "../../api/getAllAnalysis";
 
 const AdminPanel = () => {
+  
+  const isAdmin = localStorage.getItem("isAdmin");
+
   const [activeSidebarComponent, setActiveSidebarComponent] = useState("Dashboard");
   const [showSidebar, setShowSidebar] = useState(false);
   const [analytics, setAnalytics] = useState();
@@ -28,9 +31,7 @@ const AdminPanel = () => {
     };
 
     fetchClients();
-  }, []); 
-
-  console.log("analytics", chartYearData)
+  }, [analyticsLoading]); 
 
   return (
     <AdminPanelContent>
@@ -38,6 +39,7 @@ const AdminPanel = () => {
       <SideBar 
         setActiveSidebarComponent={setActiveSidebarComponent}
         showSidebar={showSidebar}
+        isAdmin={isAdmin}
       />
       <SidebarComponent 
         activeSidebarComponent={activeSidebarComponent} 
@@ -46,6 +48,8 @@ const AdminPanel = () => {
         analytics={analytics}
         analyticsLoading={analyticsLoading}
         chartYearData={chartYearData}
+        isAdmin={isAdmin}
+        setAnalyticsLoading={setAnalyticsLoading}
       />
     </AdminPanelContent>
   );

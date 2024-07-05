@@ -11,6 +11,9 @@ export const updateClient = async (credentials) => {
   
   let result = await api.put(`user/users/${credentials.userId}/`, {
     name: credentials.name,
+    email: credentials.email,
+    commission_rate: credentials.commissionPercentage,
+    is_active: credentials.is_active
   });
   return result.data;
 };

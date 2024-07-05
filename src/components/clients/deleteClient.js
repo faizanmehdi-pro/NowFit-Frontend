@@ -69,14 +69,14 @@ justify-content: center;
 align-items: center;
 `;
 
-const DeleteClient = ({showDeleteModal, setShowDeleteModal, setClientLoading, clientID}) => {
+const DeleteClient = ({showDeleteModal, setShowDeleteModal, setClientLoading, clientID, isAdmin}) => {
     
   const handleDelete = () => {
     setClientLoading(true);
     
     deleteClient(clientID)
       .then((response) => {
-        toast.success("Client Deleted Successfully");
+        toast.success("Deleted Successfully");
         setShowDeleteModal(false)
       })
       .catch((error) => {
@@ -88,7 +88,7 @@ const DeleteClient = ({showDeleteModal, setShowDeleteModal, setClientLoading, cl
   return (
     <DeleteModal showDeleteModal={showDeleteModal}>
         <DeleteModalContent>
-            <h1>Are you sure to Client ({clientID})?</h1>
+            <h1>Are you sure to remove {isAdmin === "true" ? "Client" : "Coach"} ({clientID})?</h1>
             <DeleteButtons>
                 <CancelButton onClick={() => setShowDeleteModal(false)}>NO</CancelButton>
                 <DeleteButton onClick={handleDelete}>YES</DeleteButton>

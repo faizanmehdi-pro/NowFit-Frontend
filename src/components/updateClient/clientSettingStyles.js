@@ -22,7 +22,6 @@ color: #F78852;
 
 export const ClientStripeFormCombinedField = styled.div`
 display: flex;
-align-items: center;
 gap: 30px;
 @media screen and (max-width: 760px) {
 flex-direction: column;
@@ -41,6 +40,7 @@ height: 120px;
 width: 100%;
 }
 `;
+
 
 export const ClientStripeFormFieldDifferent = styled.div`
 display: flex;
@@ -126,4 +126,26 @@ color: #fff;
 font-weight: 600;
 font-size: 18px;
 cursor: pointer;
+
+&:disabled{
+    cursor: not-allowed;
+    background: #000;
+}
+`;
+
+export const DescriptionFormFieldTextArea = styled.textarea`
+border: 1px solid #D9D9D9;
+padding: 10px;
+border-radius: 8px;
+height: 120px;
+outline: none;
+color: #000;
+font-size: 16px;
+font-weight: 600;
+
+&::placeholder{
+    color: #A7A7A7;
+    font-size: 16px;
+    font-weight: 600;
+}
 `;

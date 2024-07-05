@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Cards from '../Cards/Cards'
-import { AddClient, ClientsContainer } from './clientsStyles'
+import { AddClient, ClientsContainer, ShowAddClientForm } from './clientsStyles'
 import ClientsTables from './clientsTable'
 import { getAllClients } from '../../api/auth/getAllClients'
-import Loader from '../../reuseableComponents/loader/loader'
 
-const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClientLoading, analytics, analyticsLoading}) => {
+const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClientLoading, analytics, analyticsLoading, isAdmin, setAddClientData}) => {
   const [allClients, setAllClients] = useState([]);
 
   useEffect(() => {
@@ -23,13 +22,22 @@ const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClien
   }, [clientLoading]); 
 
   return (
+    <>
     <ClientsContainer>
         <Cards 
           analytics={analytics}
           analyticsLoading={analyticsLoading}
         />
-        <ClientsTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData}/>
+        <AddClient
+        onClick={() => {
+          setAddClientData(true);
+          setUpdateClientData(true);
+        }}>
+          + add {isAdmin === "true" ? 'Client' : 'Coach'}
+        </AddClient>
+        <ClientsTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData} isAdmin={isAdmin}/>
     </ClientsContainer>
+    </>
   )
 }
 

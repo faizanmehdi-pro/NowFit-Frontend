@@ -57,11 +57,14 @@ const IOSSwitch = styled((props) => (
 }));
 
 
-export default function ToggleStatus() {
+export default function ToggleStatus({activeUser, setActiveUser}) {
+  const handleChange = (event) => {
+    setActiveUser(event.target.checked);
+  };
   return (
     <FormGroup>
       <FormControlLabel
-        control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+        control={<IOSSwitch sx={{ m: 1 }} defaultChecked={activeUser} onChange={handleChange} />}
         // label="iOS style"
       />
     </FormGroup>

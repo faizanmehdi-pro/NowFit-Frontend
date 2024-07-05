@@ -69,7 +69,7 @@ const Cards = ({analytics, analyticsLoading}) => {
   }
           <h3>Total Revenue</h3>
         </CardHeading>
-        <h3>{analyticsLoading ? "" : "$"} {analyticsLoading? (<Loader colorProp={activeButton === "Total Revenue" ? "#fff" : "#F78852"} />) : analytics?.total_revenue}{analyticsLoading ? "" : "K"}</h3>
+        <h3>{analyticsLoading ? "" : "$"} {analyticsLoading? (<Loader colorProp={activeButton === "Total Revenue" ? "#fff" : "#F78852"} />) : analytics?.total_revenue}</h3>
       </Card>
       <Card
         active={activeButton === "Active Clients"}
@@ -83,7 +83,7 @@ const Cards = ({analytics, analyticsLoading}) => {
 }
         <h3>Active Clients</h3>
       </CardHeading>
-        <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Active Clients" ? "#fff" : "#F78852"} />) : analytics?.active_clinets}</h3>
+        <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Active Clients" ? "#fff" : "#F78852"} />) : analytics?.active_clients}</h3>
       </Card>
       <Card
         active={activeButton === "Expiring Clients"}

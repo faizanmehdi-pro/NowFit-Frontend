@@ -36,12 +36,13 @@ img{
 `;
 
 const Topbar = ({activeSidebarComponent}) => {
+  const UserName = localStorage.getItem('username')
   return (
     <TopbarContainer>
       <h2>{activeSidebarComponent}</h2>
       <User>
         <Img src={user} alt="user" />
-        <h4>John Smith</h4>
+        <h4>{UserName}</h4>
       </User>
     </TopbarContainer>
   );

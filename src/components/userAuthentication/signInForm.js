@@ -40,9 +40,12 @@ const SignInForm = () => {
     onSubmit: (values) => {
       login(values)
       .then((resp) => {
-        toast.success("User Login Successfully");
+        localStorage.setItem("user_id", resp.user_details.user_id);
+        localStorage.setItem("token", resp.access);
+        localStorage.setItem("isAdmin", resp.user_details.is_admin);
+        localStorage.setItem("username", resp.user_details.username);
         navigate("/dashboard");
-        localStorage.setItem("user_id", resp.user_id);
+        toast.success("User Login Successfully");
       })
       .catch((err) => {
         console.log(err);

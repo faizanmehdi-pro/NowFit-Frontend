@@ -52,8 +52,11 @@ z-index: 2;
 `;
 export const SideBarTop = styled.div`
 display: flex;
+justify-content: center;
 flex-direction: column;
 gap: 10px;
+position: fixed;
+width: 210px;
 `;
 export const SideBarLogo = styled.div`
 display: flex;
@@ -79,6 +82,7 @@ padding: 0 20px;
 border-radius: 8px;
 gap: 10px;
 text-decoration: none;
+text-transform: capitalize;
 
 img{
     width: 25px;
@@ -99,6 +103,8 @@ padding: 0 20px;
 cursor: pointer;
 background: none;
 gap: 10px;
+position: fixed;
+bottom: 20px;
 
 img{
     width: 20px;

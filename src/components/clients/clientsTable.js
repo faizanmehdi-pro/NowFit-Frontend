@@ -77,7 +77,7 @@ const rows = [
   createData(15474, 'Charlie', '20%', '$300', 'Active'),
 ];
 
-export default function ClientsTables({allClients, clientLoading,setClientLoading, setUpdateClientData, setGetClientData}) {
+export default function ClientsTables({allClients, clientLoading,setClientLoading, setUpdateClientData, setGetClientData, isAdmin}) {
   const [hoverIcons, setHoverIcons] = useState(rows.map(() => false));
   const [clientID, setClientID] = useState();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -165,6 +165,7 @@ export default function ClientsTables({allClients, clientLoading,setClientLoadin
       setShowDeleteModal={setShowDeleteModal} 
       clientID={clientID}
       setClientLoading={setClientLoading}
+      isAdmin={isAdmin}
     />
     </>
   );

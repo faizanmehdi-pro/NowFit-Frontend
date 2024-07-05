@@ -13,9 +13,11 @@ import MonthlyRevenue from "../monthlyRevenue/monthlyRevenue";
 import ClientSetting from "../clientSetting/clientSetting";
 import UpdateClient from "../updateClient/updateClient";
 import { useLocation } from "react-router-dom";
+import AddClient from "../updateClient/AddClient";
 
-const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoading, chartYearData }) => {
+const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoading, chartYearData, isAdmin, setAnalyticsLoading }) => {
   const location = useLocation();
+  const clientLink = isAdmin === "true" ? "clients" : "coaches";
   const activeSidebarComponent = location.pathname.slice(1);
 
   // Function to determine if a link should be considered active
@@ -25,6 +27,7 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
   const [updateClientData, setUpdateClientData] = useState(false);
   const [getClientData, setGetClientData] = useState();
   const [clientLoading, setClientLoading] = useState(true);
+  const [AddClientData, setAddClientData] = useState(false);
   return (
     <SidebarComponents>
       <SidebarComponentContainer active={isActiveLink("/dashboard")}>
@@ -42,17 +45,37 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
         />
       </SidebarComponentContainer>
       {updateClientData ? (
-      <SidebarComponentContainer active={isActiveLink("/clients")}>
-        <UpdateClient 
-          showSidebar={showSidebar} 
-          setShowSidebar={setShowSidebar} 
-          setUpdateClientData= {setUpdateClientData} 
-          getClientData={getClientData} 
-          setClientLoading={setClientLoading}
-        />
-      </SidebarComponentContainer>
+        <>
+        {AddClientData ? (
+          <SidebarComponentContainer active={isActiveLink(`/${clientLink}`)}>
+            <AddClient 
+              showSidebar={showSidebar} 
+              setShowSidebar={setShowSidebar} 
+              setUpdateClientData= {setUpdateClientData} 
+              getClientData={getClientData} 
+              setClientLoading={setClientLoading}
+              isAdmin={isAdmin}
+              setAnalyticsLoading={setAnalyticsLoading}
+              setAddClientData={setAddClientData}
+            />
+          </SidebarComponentContainer>
+        ) : (
+          <SidebarComponentContainer active={isActiveLink(`/${clientLink}`)}>
+            <UpdateClient 
+              showSidebar={showSidebar} 
+              setShowSidebar={setShowSidebar} 
+              setUpdateClientData= {setUpdateClientData} 
+              getClientData={getClientData} 
+              setClientLoading={setClientLoading}
+              isAdmin={isAdmin}
+              setAnalyticsLoading={setAnalyticsLoading}
+            />
+          </SidebarComponentContainer>
+        )
+      }
+      </>
       ) : (
-        <SidebarComponentContainer active={isActiveLink("/clients")}>
+        <SidebarComponentContainer active={isActiveLink(`/${clientLink}`)}>
           <MenuTopbar>
             <SidebarMenu showSidebar={showSidebar} onClick={() => setShowSidebar(true)} />
             <Topbar activeSidebarComponent={activeSidebarComponent}/>
@@ -64,6 +87,8 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
             setClientLoading={setClientLoading}
             analytics={analytics}
             analyticsLoading={analyticsLoading}
+            isAdmin={isAdmin}
+            setAddClientData={setAddClientData}
           />
         </SidebarComponentContainer>
         )}
@@ -79,7 +104,7 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
         />
       </SidebarComponentContainer>
       <SidebarComponentContainer  active={isActiveLink("/setting")}>
-        <ClientSetting showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+        {isAdmin ==="true" ? "Setting" : <ClientSetting showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>}
       </SidebarComponentContainer>
       <SidebarComponentContainer  active={isActiveLink("/help")}>
         Help

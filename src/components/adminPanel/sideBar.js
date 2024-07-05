@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom"; // Assuming you're using react-router-dom
+import { useLocation, useNavigate } from "react-router-dom"; // Assuming you're using react-router-dom
 import { Img } from "../../reuseableComponents/globalStyles";
 import logo from "../../assets/images/logo.png";
 import dashboard from "../../assets/images/dashboard.svg";
@@ -22,14 +22,20 @@ import {
   SideBarDivider,
 } from "./sidebarStyles";
 
-const SideBar = ({ showSidebar }) => {
+const SideBar = ({ showSidebar, isAdmin }) => {
+  const clientLink = isAdmin === "true" ? "clients" : "coaches";
   const location = useLocation();
 
   // Function to determine if a link should be considered active
   const isActiveLink = (path) => {
     return location.pathname === path;
   };
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigate('/');
+  };
   return (
     <SideBarContainer showSidebar={showSidebar}>
       <SideBarTop>
@@ -44,12 +50,12 @@ const SideBar = ({ showSidebar }) => {
             />
             <h3>Dashboard</h3>
           </SidebarLink>
-          <SidebarLink to="/clients" active={isActiveLink("/clients")}>
+          <SidebarLink to={`/${clientLink}`} active={isActiveLink(`/${clientLink}`)}>
             <Img
-              src={isActiveLink("/clients") ? clientsActive : clients}
+              src={isActiveLink(`/${clientLink}`) ? clientsActive : clients}
               alt="icon"
             />
-            <h3>Clients</h3>
+            <h3>{clientLink}</h3>
           </SidebarLink>
           <SidebarLink to="/transactions" active={isActiveLink("/transactions")}>
             <Img
@@ -74,7 +80,7 @@ const SideBar = ({ showSidebar }) => {
           </SidebarLink>
         </SideBarLinks>
       </SideBarTop>
-      <SideBarBottom>
+      <SideBarBottom onClick={handleLogout}>
         <Img src={logout} alt="logout" /> <h3> Log Out </h3>
       </SideBarBottom>
     </SideBarContainer>

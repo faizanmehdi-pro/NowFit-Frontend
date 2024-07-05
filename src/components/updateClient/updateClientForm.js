@@ -5,24 +5,32 @@ import ToggleStatus from './toggleStatus';
 import { toast } from 'react-toastify';
 import { updateClient } from '../../api/auth/updateClient';
 
-const UpdateClientForm = ({getClientData, setUpdateClientData, setClientLoading}) => {
+const UpdateClientForm = ({getClientData, setUpdateClientData, setClientLoading, setAnalyticsLoading}) => {
+  const [activeUser, setActiveUser] = useState(getClientData?.is_active);
+  const [updateClientLoading, setUpdateClientLoading] = useState(false);
+  console.log("aaaa", activeUser)
   const formik = useFormik({
     initialValues: {
       name: getClientData?.name,
       email: getClientData?.email,
-      commissionPercentage: '20%',
+      commissionPercentage: getClientData?.commission_rate,
     },
     
     onSubmit: (values) => {
+      setUpdateClientLoading(true); 
       const updateClientInformation = {
         userId: getClientData?.id,
         name: values.name,
+        commissionPercentage: values.commissionPercentage,
+        is_active: activeUser
       }
       updateClient(updateClientInformation)
       .then((resp) => {
         toast.success("Client Updated Successfully");
         setUpdateClientData(false);
         setClientLoading(true)
+        setAnalyticsLoading(true)
+        setUpdateClientLoading(false)
       })
       .catch((err) => {
         toast.error("Please Try Again");
@@ -60,10 +68,10 @@ const UpdateClientForm = ({getClientData, setUpdateClientData, setClientLoading}
         </ClientStripeFormCombinedField>
         <ClientStripeFormCombinedField>
           <ClientStripeFormField>
-            <ClientStripeFormFieldLabelText>Commission Percentage *</ClientStripeFormFieldLabelText>
+            <ClientStripeFormFieldLabelText>Commission Percentage (%) *</ClientStripeFormFieldLabelText>
             <ClientStripeFormFieldInput
-              type="text"
-              placeholder='20%'
+              type="number"
+              placeholder='20'
               name="commissionPercentage"
               value={formik.values.commissionPercentage}
               onChange={formik.handleChange}
@@ -72,12 +80,12 @@ const UpdateClientForm = ({getClientData, setUpdateClientData, setClientLoading}
           </ClientStripeFormField>
           <ClientStripeFormField>
             <ClientStripeFormFieldLabelText>Status</ClientStripeFormFieldLabelText>
-            <ToggleStatus />
+            <ToggleStatus activeUser={activeUser} setActiveUser={setActiveUser}/>
           </ClientStripeFormField>
         </ClientStripeFormCombinedField>
         <ClientStripeFormButtonContainer>
           <ClientStripeFormCancelButton type="button" onClick={() => { setClientLoading(true); setUpdateClientData(false); }}>Cancel</ClientStripeFormCancelButton>
-          <ClientStripeFormButton type="submit" onClick={formik.handleSubmit}>Save</ClientStripeFormButton>
+          <ClientStripeFormButton type="submit" onClick={formik.handleSubmit} disabled={updateClientLoading}>{updateClientLoading ? "Loading..." : "Save" }</ClientStripeFormButton>
         </ClientStripeFormButtonContainer>
       </ClientStripeFormContainer>
   );
