@@ -48,7 +48,7 @@ img{
   height: 25px;
 }
 `;
-const Cards = ({analytics, analyticsLoading}) => {
+const Cards = ({analytics, analyticsLoading, isAdmin}) => {
     const [activeButton, setActiveButton] = useState("Total Revenue");
     let colorProp = "#F78852";
 
@@ -81,7 +81,7 @@ const Cards = ({analytics, analyticsLoading}) => {
         : 
         <Img src={client} alt="client" />
 }
-        <h3>Active Clients</h3>
+        <h3>Active {isAdmin === "false" ? 'Clients' : 'Coaches'}</h3>
       </CardHeading>
         <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Active Clients" ? "#fff" : "#F78852"} />) : analytics?.active_clients}</h3>
       </Card>
@@ -95,7 +95,7 @@ const Cards = ({analytics, analyticsLoading}) => {
         : 
         <Img src={client} alt="client" />
 }
-        <h3>Expiring Clients</h3>
+        <h3>Expiring {isAdmin === "false" ? 'Clients' : 'Coaches'}</h3>
       </CardHeading>
         <h3>{analyticsLoading? (<Loader colorProp={activeButton === "Expiring Clients" ? "#fff" : "#F78852"} />) : analytics?.expiring_clients}</h3>
       </Card>

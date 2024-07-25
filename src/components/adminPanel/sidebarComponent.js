@@ -17,7 +17,7 @@ import AddClient from "../updateClient/AddClient";
 
 const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoading, chartYearData, isAdmin, setAnalyticsLoading }) => {
   const location = useLocation();
-  const clientLink = isAdmin === "true" ? "clients" : "coaches";
+  const clientLink = isAdmin === "false" ? "clients" : "coaches";
   const activeSidebarComponent = location.pathname.slice(1);
 
   // Function to determine if a link should be considered active
@@ -42,6 +42,7 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
           analytics={analytics}
           analyticsLoading={analyticsLoading}
           chartYearData={chartYearData}
+          isAdmin={isAdmin}
         />
       </SidebarComponentContainer>
       {updateClientData ? (
@@ -66,6 +67,7 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
               setShowSidebar={setShowSidebar} 
               setUpdateClientData= {setUpdateClientData} 
               getClientData={getClientData} 
+              clientLoading={clientLoading}
               setClientLoading={setClientLoading}
               isAdmin={isAdmin}
               setAnalyticsLoading={setAnalyticsLoading}
@@ -101,10 +103,11 @@ const SidebarComponent = ({ showSidebar, setShowSidebar, analytics, analyticsLoa
           analytics={analytics}
           analyticsLoading={analyticsLoading}
           clientLoading={clientLoading}
+          isAdmin={isAdmin}
         />
       </SidebarComponentContainer>
       <SidebarComponentContainer  active={isActiveLink("/setting")}>
-        {isAdmin ==="true" ? "Setting" : <ClientSetting showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>}
+        {isAdmin ==="false" ? "Setting" : <ClientSetting showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>}
       </SidebarComponentContainer>
       <SidebarComponentContainer  active={isActiveLink("/help")}>
         Help

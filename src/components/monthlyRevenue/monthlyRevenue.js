@@ -4,7 +4,7 @@ import { MonthlyRevenueContainer } from './monthlyRevenueStyles'
 import MonthlyRevenueTables from './monthlyRevenueTable'
 import { getAllTransactions } from '../../api/auth/getAllTransactions'
 
-const MonthlyRevenue = ({analytics, analyticsLoading, clientLoading}) => {
+const MonthlyRevenue = ({analytics, analyticsLoading, clientLoading, isAdmin}) => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [transactionLoading, setTransactionLoading] = useState(false);
 
@@ -26,6 +26,7 @@ const MonthlyRevenue = ({analytics, analyticsLoading, clientLoading}) => {
         <Cards 
           analytics={analytics}
           analyticsLoading={analyticsLoading}
+          isAdmin={isAdmin}
         />
         <MonthlyRevenueTables 
           allTransactions={allTransactions}

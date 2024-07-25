@@ -1,12 +1,17 @@
 import React from "react";
 import { BCActiveText, BCDivider, BCText, CustomBreadCrumb } from "../../reuseableComponents/globalStyles";
 
-const UpdateClientBreadCrumb = ({setUpdateClientData, isAdmin}) => {
+const UpdateClientBreadCrumb = ({setUpdateClientData, isAdmin, setClientLoading}) => {
   return (
       <CustomBreadCrumb>
-        <BCText onClick={() => setUpdateClientData(false)}>{isAdmin === "true" ? "Clients" : "Coaches"}</BCText>
+        <BCText 
+          onClick={() => {
+            setUpdateClientData(false);
+            setClientLoading(true);
+          }}
+          >{isAdmin === "false" ? "Clients" : "Coaches"}</BCText>
         <BCDivider>/</BCDivider>
-        <BCActiveText>{isAdmin === "true" ? "Update Client" : "Update Coach"}</BCActiveText>
+        <BCActiveText>{isAdmin === "false" ? "Update Client" : "Update Coach"}</BCActiveText>
       </CustomBreadCrumb>
   );
 };

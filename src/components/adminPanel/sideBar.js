@@ -23,7 +23,7 @@ import {
 } from "./sidebarStyles";
 
 const SideBar = ({ showSidebar, isAdmin }) => {
-  const clientLink = isAdmin === "true" ? "clients" : "coaches";
+  const clientLink = isAdmin === "false" ? "clients" : "coaches";
   const location = useLocation();
 
   // Function to determine if a link should be considered active

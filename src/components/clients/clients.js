@@ -3,6 +3,9 @@ import Cards from '../Cards/Cards'
 import { AddClient, ClientsContainer, ShowAddClientForm } from './clientsStyles'
 import ClientsTables from './clientsTable'
 import { getAllClients } from '../../api/auth/getAllClients'
+import { getCommissionClients } from '../../api/getCommisionClients'
+import { getCoaches } from '../../api/getCoaches'
+import CoachessTables from './cloachesTable'
 
 const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClientLoading, analytics, analyticsLoading, isAdmin, setAddClientData}) => {
   const [allClients, setAllClients] = useState([]);
@@ -10,9 +13,15 @@ const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClien
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const resp = await getAllClients();
-        setAllClients(resp?.users);
+        if(isAdmin === "false"){
+        const resp = await getCommissionClients();
+        setAllClients(resp?.contacts);
         setClientLoading(false);
+        }else{
+          const resp = await getCoaches();
+          setAllClients(resp?.users);
+          setClientLoading(false);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -27,15 +36,23 @@ const Clients = ({setUpdateClientData, setGetClientData, clientLoading, setClien
         <Cards 
           analytics={analytics}
           analyticsLoading={analyticsLoading}
+          isAdmin={isAdmin}
         />
         <AddClient
         onClick={() => {
           setAddClientData(true);
           setUpdateClientData(true);
         }}>
-          + add {isAdmin === "true" ? 'Client' : 'Coach'}
+          + Add {isAdmin === "false" ? 'Client' : 'Coach'}
         </AddClient>
-        <ClientsTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData} isAdmin={isAdmin}/>
+        <>
+          {isAdmin === "false" ? (
+            <ClientsTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData} isAdmin={isAdmin}/>
+            ) : (
+            <CoachessTables allClients={allClients} clientLoading={clientLoading} setClientLoading={setClientLoading} setUpdateClientData={setUpdateClientData} setGetClientData={setGetClientData} isAdmin={isAdmin}/>
+            )
+          }
+        </>
     </ClientsContainer>
     </>
   )

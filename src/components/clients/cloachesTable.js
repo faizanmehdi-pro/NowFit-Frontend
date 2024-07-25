@@ -18,6 +18,8 @@ import { toast } from 'react-toastify';
 import { getClient } from '../../api/auth/getClient';
 import DeleteClient from './deleteClient';
 import Loader from '../../reuseableComponents/loader/loader';
+import DeleteCoach from './deleteCoach';
+import { getCoach } from '../../api/getCoach';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -77,7 +79,7 @@ const rows = [
   createData(15474, 'Charlie', '20%', '$300', 'Active'),
 ];
 
-export default function ClientsTables({allClients, clientLoading,setClientLoading, setUpdateClientData, setGetClientData, isAdmin}) {
+export default function CoachessTables({allClients, clientLoading,setClientLoading, setUpdateClientData, setGetClientData, isAdmin}) {
   const [hoverIcons, setHoverIcons] = useState(rows.map(() => false));
   const [clientID, setClientID] = useState();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -92,12 +94,14 @@ export default function ClientsTables({allClients, clientLoading,setClientLoadin
 
 
   const handleEdit = (id) => {
+    setUpdateClientData(true);
+    setClientLoading(true)
     
-    getClient(id)
+    getCoach(id)
       .then((response) => {
         console.log("object", response)
         setGetClientData(response);
-        setUpdateClientData(true);
+        setClientLoading(false)
       })
       .catch((error) => {
         console.error("Error deleting client:", error);
@@ -114,7 +118,7 @@ export default function ClientsTables({allClients, clientLoading,setClientLoadin
             <StyledTableCell>Client ID</StyledTableCell>
             <StyledTableCell>Name</StyledTableCell>
             <StyledTableCell>Email</StyledTableCell>
-            <StyledTableCell>Date</StyledTableCell>
+            <StyledTableCell>Phone</StyledTableCell>
             <StyledTableCell>Status</StyledTableCell>
             <StyledTableCell>Actions</StyledTableCell>
           </TableRow>
@@ -131,9 +135,9 @@ export default function ClientsTables({allClients, clientLoading,setClientLoadin
                 <StyledTableCell component="th" scope="row">
                   {row.id}
                 </StyledTableCell>
-                <StyledTableCell>{row.contactName}</StyledTableCell>
+                <StyledTableCell>{row.name}</StyledTableCell>
                 <StyledTableCell>{row.email}</StyledTableCell>
-                <StyledTableCell>{row.dateAdded.slice(0, 10)}</StyledTableCell>
+                <StyledTableCell>{row.phone}</StyledTableCell>
                 <StyledTableCell>
                   <Status>
                     <StatusCircle hoverIcons={hoverIcons[index]}/> {row.is_active ? "Active" : "Panding"}
@@ -160,7 +164,7 @@ export default function ClientsTables({allClients, clientLoading,setClientLoadin
       </Table>
     )}
     </StyledTableContainer>
-    <DeleteClient 
+    <DeleteCoach 
       showDeleteModal={showDeleteModal} 
       setShowDeleteModal={setShowDeleteModal} 
       clientID={clientID}

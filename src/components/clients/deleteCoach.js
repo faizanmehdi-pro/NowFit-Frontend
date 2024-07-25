@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { deleteClient } from '../../api/auth/deleteClient';
+import { deleteCoach } from '../../api/deleteCoach';
 import { toast } from 'react-toastify';
 
 const DeleteModal = styled.div`
@@ -69,12 +69,12 @@ justify-content: center;
 align-items: center;
 `;
 
-const DeleteClient = ({showDeleteModal, setShowDeleteModal, setClientLoading, clientID, isAdmin}) => {
+const DeleteCoach = ({showDeleteModal, setShowDeleteModal, setClientLoading, clientID, isAdmin}) => {
     
   const handleDelete = () => {
     setClientLoading(true);
     
-    deleteClient(clientID)
+    deleteCoach(clientID)
       .then((response) => {
         toast.success("Deleted Successfully");
         setShowDeleteModal(false)
@@ -98,4 +98,4 @@ const DeleteClient = ({showDeleteModal, setShowDeleteModal, setClientLoading, cl
   )
 }
 
-export default DeleteClient
+export default DeleteCoach

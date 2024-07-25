@@ -34,7 +34,7 @@ export const ClientStripeFormField = styled.div`
 display: flex;
 flex-direction: column;
 gap: 10px;
-width: 50%;
+width: 100%;
 height: 120px;
 @media screen and (max-width: 760px) {
 width: 100%;
@@ -48,6 +48,7 @@ flex-direction: column;
 gap: 10px;
 width: 50%;
 height: 190px;
+
 @media screen and (max-width: 760px) {
 width: 100%;
 }
@@ -74,6 +75,12 @@ font-weight: 600;
     font-size: 16px;
     font-weight: 600;
 }
+
+&[type=number]::-webkit-outer-spin-button,
+  &[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const ClientStripeFormFieldTextArea = styled.textarea`
